@@ -11,7 +11,6 @@
 @interface DYAppDelegate : NSObject <NSApplicationDelegate, NSTableViewDelegate, NSTableViewDataSource>
 
 @property (assign) IBOutlet NSWindow *window;
-@property (strong) IBOutlet NSArrayController *arrayController;
 
 
 @property (strong) NSWorkspace *workspace;

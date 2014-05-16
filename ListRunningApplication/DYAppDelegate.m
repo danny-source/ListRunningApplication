@@ -1,7 +1,7 @@
 //
 //  DYAppDelegate.m
 //  ListRunningApplication
-//
+//  http://cms.35g.tw/coding
 //  Created by danny on 2014/5/15.
 //  Copyright (c) 2014年 danny. All rights reserved.
 //
@@ -9,6 +9,9 @@
 #import "DYAppDelegate.h"
 
 @implementation DYAppDelegate
+{
+    NSArray *runningApplicationArray;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -23,39 +26,46 @@
 
 
 
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 {
+    //row值當做目前要提供第幾筆資料
+    NSRunningApplication *runningApplication;
+    //第一欄
     if ([[tableColumn identifier] isEqualToString:@"Column_1"])
     {
         
-        NSRunningApplication *runningApplication = [[self.workspace runningApplications] objectAtIndex:row];
-        
+        runningApplication = [runningApplicationArray objectAtIndex:row];
+		//將icon資訊回報
         return [runningApplication icon];
         
     }
+    //第二欄
     if ([[tableColumn identifier] isEqualToString:@"Column_2"])
     {
         
-        NSRunningApplication *runningApplication = [[self.workspace runningApplications] objectAtIndex:row];
-        
+        runningApplication = [runningApplicationArray objectAtIndex:row];
+		//回報程式名稱
         return [runningApplication localizedName];
         
     }
+    //第三欄
     if ([[tableColumn identifier] isEqualToString:@"Column_3"])
     {
         
-        NSRunningApplication *runningApplication = [[self.workspace runningApplications] objectAtIndex:row];
-        
+        runningApplication = [runningApplicationArray objectAtIndex:row];
+		//回報程式處理程序ID(PID)
         return [[NSNumber alloc] initWithInteger:(NSInteger)[runningApplication processIdentifier]];
         
     }
     return Nil;
 }
-//- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [[[NSWorkspace sharedWorkspace] runningApplications] count];
+    runningApplicationArray = [self.workspace runningApplications];
+    NSLog(@"%@",runningApplicationArray);
+    return [runningApplicationArray count];
 }
 @end
